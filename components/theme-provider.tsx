@@ -1,12 +1,12 @@
 "use client";
 
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
-import { type ComponentProps, useEffect } from "react";
+import { useEffect } from "react";
 
 function ThemeProvider({
   children,
   ...props
-}: ComponentProps<typeof NextThemesProvider>) {
+}: React.ComponentProps<typeof NextThemesProvider>) {
   return (
     <NextThemesProvider
       attribute="class"
