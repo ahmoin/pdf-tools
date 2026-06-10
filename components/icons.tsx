@@ -6,13 +6,49 @@ export const Icons = {
   logo: (props: IconProps) => (
     <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" {...props}>
       <title>PDF Tools</title>
-      <rect fill="currentColor" height="256" width="256" />
+      <rect fill="none" height="256" width="256" />
+      <text
+        dominantBaseline="middle"
+        fill="white"
+        fontFamily="system-ui, sans-serif"
+        fontSize="100"
+        fontWeight="700"
+        textAnchor="middle"
+        x="128"
+        y="100"
+      >
+        pdf
+      </text>
+      <text
+        dominantBaseline="middle"
+        fill="white"
+        fontFamily="system-ui, sans-serif"
+        fontSize="100"
+        fontWeight="400"
+        textAnchor="middle"
+        x="128"
+        y="190"
+      >
+        tools
+      </text>
     </svg>
   ),
   logoFull: (props: IconProps) => (
     <svg viewBox="0 0 1024 256" xmlns="http://www.w3.org/2000/svg" {...props}>
       <title>PDF Tools</title>
-      <rect fill="currentColor" height="256" width="1024" />
+      <rect fill="none" height="256" width="1024" />
+      <text
+        dominantBaseline="middle"
+        fill="white"
+        fontFamily="system-ui, sans-serif"
+        fontSize="200"
+        fontWeight="700"
+        textAnchor="middle"
+        x="512"
+        y="128"
+      >
+        pdf/tools
+      </text>
     </svg>
   ),
   twitter: (props: IconProps) => (
