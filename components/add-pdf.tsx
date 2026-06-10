@@ -37,7 +37,7 @@ export function AddPDF({ value, onValueChange }: AddPDFProps) {
   return (
     <FileUpload
       accept="application/pdf"
-      className="w-full max-w-md"
+      className="w-full"
       multiple
       onFileReject={onFileReject}
       onFileValidate={onFileValidate}

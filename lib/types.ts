@@ -28,4 +28,28 @@ interface Store {
   subscribe: (listener: () => void) => () => void;
 }
 
-export type { FileState, Store, StoreAction, StoreState };
+interface FilePlan {
+  index: number;
+  pages: number[];
+}
+
+interface PageInfo {
+  pageNumber: number;
+  text: string;
+}
+
+interface FileInfo {
+  name: string;
+  pageCount: number;
+  pages: PageInfo[];
+}
+
+export type {
+  FileInfo,
+  FilePlan,
+  FileState,
+  PageInfo,
+  Store,
+  StoreAction,
+  StoreState,
+};
