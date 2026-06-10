@@ -22,16 +22,11 @@ export function Header() {
       <nav className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4">
         <Link
           className="rounded-md p-2 hover:bg-muted dark:hover:bg-muted/50"
-          href="/"
+          href={siteConfig.url}
         >
           <Icons.logoFull className="h-4" />
         </Link>
         <div className="hidden items-center gap-2 md:flex">
-          {/* {navLinks.map((link) => (
-            <Button asChild key={link.label} size="sm" variant="ghost">
-              <a href={link.href}>{link.label}</a>
-            </Button>
-          ))} */}
           <Button asChild size="icon" variant="outline">
             <Link
               href={siteConfig.links.twitter}
