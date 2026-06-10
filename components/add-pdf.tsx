@@ -1,41 +1,74 @@
-import { FileIcon } from "lucide-react";
+"use client";
+
+import { Upload, X } from "lucide-react";
+import { useCallback, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Item } from "@/components/ui/item";
-import { Label } from "@/components/ui/label";
+import {
+  FileUpload,
+  FileUploadDropzone,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadTrigger,
+} from "@/components/ui/file-upload";
 
 export function AddPDF() {
+  const [files, setFiles] = useState<File[]>([]);
+
+  const onFileValidate = useCallback((file: File): string | null => {
+    if (file.type !== "application/pdf") {
+      return "Only PDF files are allowed";
+    }
+
+    return null;
+  }, []);
+
+  const onFileReject = useCallback((file: File, message: string) => {
+    toast.error(message, {
+      description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
+    });
+  }, []);
+
   return (
-    <Card>
-      <CardContent className="flex flex-col gap-3">
-        <Label
-          className="text-center font-normal text-muted-foreground text-xs uppercase tracking-wider"
-          htmlFor="add-pdf"
-        >
-          Drag or click to start
-        </Label>
-        <Item className="aspect-square" variant="outline">
-          <label
-            className="flex size-full cursor-pointer items-center justify-center"
-            htmlFor="add-pdf"
-          >
-            <FileIcon className="size-10 text-muted-foreground/50" />
-          </label>
-        </Item>
-        <input
-          accept="application/pdf"
-          className="sr-only"
-          id="add-pdf"
-          type="file"
-        />
-      </CardContent>
-      <CardFooter className="flex-col gap-2">
-        <Button asChild className="w-full" variant="secondary">
-          <label className="cursor-pointer" htmlFor="add-pdf">
-            Add PDFs
-          </label>
-        </Button>
-      </CardFooter>
-    </Card>
+    <FileUpload
+      accept="application/pdf"
+      className="w-full max-w-md"
+      multiple
+      onFileReject={onFileReject}
+      onFileValidate={onFileValidate}
+      onValueChange={setFiles}
+      value={files}
+    >
+      <FileUploadDropzone>
+        <div className="flex flex-col items-center gap-1">
+          <div className="flex items-center justify-center rounded-full border p-2.5">
+            <Upload className="size-6 text-muted-foreground" />
+          </div>
+          <p className="font-medium text-sm">Drag & drop files here</p>
+          <p className="text-muted-foreground text-xs">Or click to browse</p>
+        </div>
+        <FileUploadTrigger asChild>
+          <Button className="mt-2 w-fit" size="sm" variant="outline">
+            Browse files
+          </Button>
+        </FileUploadTrigger>
+      </FileUploadDropzone>
+      <FileUploadList>
+        {files.map((file) => (
+          <FileUploadItem key={file.name} value={file}>
+            <FileUploadItemPreview />
+            <FileUploadItemMetadata />
+            <FileUploadItemDelete asChild>
+              <Button className="size-7" size="icon" variant="ghost">
+                <X />
+              </Button>
+            </FileUploadItemDelete>
+          </FileUploadItem>
+        ))}
+      </FileUploadList>
+    </FileUpload>
   );
 }
