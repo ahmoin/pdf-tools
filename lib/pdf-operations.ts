@@ -105,20 +105,6 @@ export async function splitPDF(
   });
 }
 
-export async function compressPDF(
-  file: File
-): Promise<Uint8Array<ArrayBuffer>> {
-  const mupdf = await import("mupdf");
-  const data = new Uint8Array(await file.arrayBuffer());
-  const doc = mupdf.Document.openDocument(
-    data,
-    "application/pdf"
-  ) as MuPDF.PDFDocument;
-  return copyBuffer(
-    doc.saveToBuffer("compress,garbage=4,clean").asUint8Array()
-  );
-}
-
 export async function rotatePages(
   file: File,
   degrees: 90 | 180 | 270,

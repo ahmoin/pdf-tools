@@ -7,7 +7,6 @@ import {
   Image,
   Layers,
   Loader2,
-  Package,
   RotateCw,
   Scissors,
 } from "lucide-react";
@@ -26,7 +25,6 @@ import {
 } from "@/components/ui/item";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  compressPDF,
   getFilesInfo,
   keepPages,
   mergePDFs,
@@ -40,7 +38,6 @@ import type { FilePlan } from "@/lib/types";
 type ToolId =
   | "merge"
   | "split"
-  | "compress"
   | "rotate"
   | "remove-pages"
   | "extract-pages"
@@ -65,13 +62,6 @@ const TOOLS: Array<{
     label: "Split PDF",
     description: "Split into individual pages",
     icon: Scissors,
-    multiple: false,
-  },
-  {
-    id: "compress",
-    label: "Compress PDF",
-    description: "Reduce file size",
-    icon: Package,
     multiple: false,
   },
   {
@@ -107,7 +97,6 @@ const TOOLS: Array<{
 const BUTTON_LABELS: Record<ToolId, (n: number) => string> = {
   merge: (n) => `Merge ${n} PDFs`,
   split: () => "Split PDF",
-  compress: () => "Compress PDF",
   rotate: () => "Rotate Pages",
   "remove-pages": () => "Remove Pages",
   "extract-pages": () => "Extract Pages",
@@ -204,10 +193,7 @@ export function PDFTool({ onPreview }: PDFToolProps) {
           toast.success(`Split into ${parts.length} files`);
           break;
         }
-        case "compress": {
-          previewPDF(await compressPDF(file));
-          break;
-        }
+
         case "rotate": {
           previewPDF(
             await rotatePages(
