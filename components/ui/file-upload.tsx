@@ -25,6 +25,7 @@ import {
 } from "react";
 import { useAsRef } from "@/hooks/use-as-ref";
 import { useLazyRef } from "@/hooks/use-lazy-ref";
+import type { FileState, Store, StoreAction, StoreState } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const ROOT_NAME = "FileUpload";
@@ -103,36 +104,6 @@ function getFileIcon(file: File) {
 }
 
 type Direction = "ltr" | "rtl";
-
-interface FileState {
-  error?: string;
-  file: File;
-  progress: number;
-  status: "idle" | "uploading" | "error" | "success";
-}
-
-interface StoreState {
-  dragOver: boolean;
-  files: Map<File, FileState>;
-  invalid: boolean;
-}
-
-type StoreAction =
-  | { type: "ADD_FILES"; files: File[] }
-  | { type: "SET_FILES"; files: File[] }
-  | { type: "SET_PROGRESS"; file: File; progress: number }
-  | { type: "SET_SUCCESS"; file: File }
-  | { type: "SET_ERROR"; file: File; error: string }
-  | { type: "REMOVE_FILE"; file: File }
-  | { type: "SET_DRAG_OVER"; dragOver: boolean }
-  | { type: "SET_INVALID"; invalid: boolean }
-  | { type: "CLEAR" };
-
-type Store = {
-  getState: () => StoreState;
-  dispatch: (action: StoreAction) => void;
-  subscribe: (listener: () => void) => () => void;
-};
 
 const StoreContext = createContext<Store | null>(null);
 
@@ -838,8 +809,7 @@ function FileUploadDropzone(props: FileUploadDropzoneProps) {
       }
 
       const files: File[] = [];
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
+      for (const item of items) {
         if (item?.kind === "file") {
           const file = item.getAsFile();
           if (file) {
@@ -1058,13 +1028,16 @@ function FileUploadItem(props: FileUploadItemProps) {
     return null;
   }
 
-  const statusText = fileState.error
-    ? `Error: ${fileState.error}`
-    : fileState.status === "uploading"
-      ? `Uploading: ${fileState.progress}% complete`
-      : fileState.status === "success"
-        ? "Upload complete"
-        : "Ready to upload";
+  let statusText: string;
+  if (fileState.error) {
+    statusText = `Error: ${fileState.error}`;
+  } else if (fileState.status === "uploading") {
+    statusText = `Uploading: ${fileState.progress}% complete`;
+  } else if (fileState.status === "success") {
+    statusText = "Upload complete";
+  } else {
+    statusText = "Ready to upload";
+  }
 
   const ItemPrimitive = asChild ? SlotPrimitive.Slot : "div";
 
@@ -1284,6 +1257,7 @@ function FileUploadItemProgress(props: FileUploadItemProgressProps) {
             viewBox={`0 0 ${size} ${size}`}
             width={size}
           >
+            <title>Upload progress</title>
             <circle
               className="text-primary/20"
               cx={size / 2}

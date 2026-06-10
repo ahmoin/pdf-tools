@@ -1,7 +1,7 @@
 "use client";
 
 import { Upload, X } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,14 +15,16 @@ import {
   FileUploadTrigger,
 } from "@/components/ui/file-upload";
 
-export function AddPDF() {
-  const [files, setFiles] = useState<File[]>([]);
+interface AddPDFProps {
+  onValueChange: (files: File[]) => void;
+  value: File[];
+}
 
+export function AddPDF({ value, onValueChange }: AddPDFProps) {
   const onFileValidate = useCallback((file: File): string | null => {
     if (file.type !== "application/pdf") {
       return "Only PDF files are allowed";
     }
-
     return null;
   }, []);
 
@@ -39,8 +41,8 @@ export function AddPDF() {
       multiple
       onFileReject={onFileReject}
       onFileValidate={onFileValidate}
-      onValueChange={setFiles}
-      value={files}
+      onValueChange={onValueChange}
+      value={value}
     >
       <FileUploadDropzone>
         <div className="flex flex-col items-center gap-1">
@@ -57,7 +59,7 @@ export function AddPDF() {
         </FileUploadTrigger>
       </FileUploadDropzone>
       <FileUploadList>
-        {files.map((file) => (
+        {value.map((file) => (
           <FileUploadItem key={file.name} value={file}>
             <FileUploadItemPreview />
             <FileUploadItemMetadata />
