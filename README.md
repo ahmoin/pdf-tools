@@ -1,6 +1,6 @@
 # pdf-tools
 
-Manipulate PDF files locally on your device with WebAssembly.
+Manipulate PDF files locally on your device with WebAssembly. PDF binaries never leave your browser, only the AI merge feature sends extracted page text to a server.
 
 ## Features
 
@@ -23,3 +23,7 @@ pnpm dev
 | Variable | Description |
 |---|---|
 | `AI_GATEWAY_API_KEY` | Vercel AI Gateway key, required for AI instructions |
+
+## License
+
+[MIT](./LICENSE.md)
