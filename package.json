@@ -3,6 +3,7 @@
     "ai": "^6.0.199",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "jszip": "^3.10.1",
     "lucide-react": "^1.17.0",
     "mupdf": "^1.27.0",
     "next": "16.2.6",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
     "@tailwindcss/postcss": "^4",
+    "@types/jszip": "^3.4.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

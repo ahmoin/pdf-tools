@@ -2,7 +2,7 @@
 
 import { Download } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
-import { MergePDF } from "@/components/merge-pdf";
+import { PDFTool } from "@/components/pdf-tool";
 import { Button } from "@/components/ui/button";
 import {
   ResizableHandle,
@@ -16,7 +16,7 @@ export function PDFWorkspace() {
   const isMobile = useIsMobile();
   const prevUrlRef = useRef<string | null>(null);
 
-  const onMerged = useCallback((url: string) => {
+  const onPreview = useCallback((url: string) => {
     if (prevUrlRef.current) {
       URL.revokeObjectURL(prevUrlRef.current);
     }
@@ -30,7 +30,7 @@ export function PDFWorkspace() {
     }
     const a = document.createElement("a");
     a.href = previewUrl;
-    a.download = "merged.pdf";
+    a.download = "output.pdf";
     a.click();
   }, [previewUrl]);
 
@@ -42,7 +42,7 @@ export function PDFWorkspace() {
       >
         <ResizablePanel defaultSize={isMobile ? 50 : 40} minSize={25}>
           <div className="flex h-full flex-col gap-4 overflow-y-auto p-6">
-            <MergePDF onMerged={onMerged} />
+            <PDFTool onPreview={onPreview} />
           </div>
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -68,7 +68,7 @@ export function PDFWorkspace() {
             </div>
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground text-sm">
-              Merge PDFs to see a preview here
+              Process a PDF to see a preview here
             </div>
           )}
         </ResizablePanel>

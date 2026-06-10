@@ -15,12 +15,15 @@ import {
   FileUploadTrigger,
 } from "@/components/ui/file-upload";
 
-interface AddPDFProps {
+export function AddPDF({
+  value,
+  onValueChange,
+  multiple = true,
+}: {
+  multiple?: boolean;
   onValueChange: (files: File[]) => void;
   value: File[];
-}
-
-export function AddPDF({ value, onValueChange }: AddPDFProps) {
+}) {
   const onFileValidate = useCallback((file: File): string | null => {
     if (file.type !== "application/pdf") {
       return "Only PDF files are allowed";
@@ -38,7 +41,8 @@ export function AddPDF({ value, onValueChange }: AddPDFProps) {
     <FileUpload
       accept="application/pdf"
       className="w-full"
-      multiple
+      maxFiles={multiple ? undefined : 1}
+      multiple={multiple}
       onFileReject={onFileReject}
       onFileValidate={onFileValidate}
       onValueChange={onValueChange}
@@ -60,7 +64,10 @@ export function AddPDF({ value, onValueChange }: AddPDFProps) {
       </FileUploadDropzone>
       <FileUploadList>
         {value.map((file) => (
-          <FileUploadItem key={file.name} value={file}>
+          <FileUploadItem
+            key={`${file.name}-${file.size}-${file.lastModified}`}
+            value={file}
+          >
             <FileUploadItemPreview />
             <FileUploadItemMetadata />
             <FileUploadItemDelete asChild>
