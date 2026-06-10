@@ -1,7 +1,9 @@
 import { Geist_Mono, Inter } from "next/font/google";
 
 import "./globals.css";
+import { Analytics } from "@/components/analytics";
 import { Header } from "@/components/header";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
@@ -34,6 +36,8 @@ export default function RootLayout({
           <Header />
           {children}
           <Toaster position="top-center" />
+          <TailwindIndicator />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
