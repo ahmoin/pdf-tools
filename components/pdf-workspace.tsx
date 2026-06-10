@@ -35,7 +35,7 @@ export function PDFWorkspace() {
   }, [previewUrl]);
 
   return (
-    <div className="flex h-svh p-4">
+    <div className="flex h-[calc(100vh-4rem)] overflow-hidden p-4">
       <ResizablePanelGroup
         className="rounded-lg border"
         orientation={isMobile ? "vertical" : "horizontal"}
